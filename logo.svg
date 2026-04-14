@@ -1,0 +1,73 @@
+<svg viewBox="0 0 512 512" width="512" height="512" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <radialGradient id="dl-glow" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.35"/>
+    <stop offset="100%" stop-color="#F59E0B" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="dl-top" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#FDE68A"/>
+    <stop offset="100%" stop-color="#FBBF24"/>
+  </linearGradient>
+  <linearGradient id="dl-right" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#F59E0B"/>
+    <stop offset="100%" stop-color="#D97706"/>
+  </linearGradient>
+  <linearGradient id="dl-left" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#92400E"/>
+    <stop offset="100%" stop-color="#78350F"/>
+  </linearGradient>
+  <linearGradient id="dl-top2" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#FDE68A" stop-opacity="0.9"/>
+    <stop offset="100%" stop-color="#FBBF24" stop-opacity="0.9"/>
+  </linearGradient>
+  <linearGradient id="dl-right2" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#D97706"/>
+    <stop offset="100%" stop-color="#B45309"/>
+  </linearGradient>
+  <linearGradient id="dl-left2" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#78350F"/>
+    <stop offset="100%" stop-color="#451A03"/>
+  </linearGradient>
+  <filter id="dl-blur">
+    <feGaussianBlur stdDeviation="18"/>
+  </filter>
+</defs>
+
+<!-- Background -->
+<rect width="512" height="512" rx="96" fill="#0C0A05"/>
+
+<!-- Glow -->
+<ellipse cx="256" cy="265" rx="160" ry="130" fill="url(#dl-glow)" filter="url(#dl-blur)"/>
+
+<!-- Bottom layer (cube 3) -->
+<!-- Left face -->
+<polygon points="148,330 256,392 256,360 148,298" fill="url(#dl-left2)"/>
+<!-- Right face -->
+<polygon points="256,392 364,330 364,298 256,360" fill="url(#dl-right2)"/>
+<!-- Top face -->
+<polygon points="148,298 256,360 364,298 256,236" fill="url(#dl-top2)"/>
+
+<!-- Middle layer (cube 2) -->
+<!-- Left face -->
+<polygon points="164,280 256,332 256,300 164,248" fill="url(#dl-left)"/>
+<!-- Right face -->
+<polygon points="256,332 348,280 348,248 256,300" fill="url(#dl-right)"/>
+<!-- Top face -->
+<polygon points="164,248 256,300 348,248 256,196" fill="url(#dl-top)"/>
+
+<!-- Top layer (cube 1) -->
+<!-- Left face -->
+<polygon points="180,230 256,274 256,242 180,198" fill="url(#dl-left)"/>
+<!-- Right face -->
+<polygon points="256,274 332,230 332,198 256,242" fill="url(#dl-right)"/>
+<!-- Top face -->
+<polygon points="180,198 256,242 332,198 256,154" fill="url(#dl-top)"/>
+
+<!-- Edge highlight lines for premium feel -->
+<polyline points="256,154 256,242" stroke="#FDE68A" stroke-width="1" stroke-opacity="0.6" fill="none"/>
+<polyline points="256,196 256,300" stroke="#FDE68A" stroke-width="1" stroke-opacity="0.4" fill="none"/>
+<polyline points="256,236 256,360" stroke="#FDE68A" stroke-width="1" stroke-opacity="0.3" fill="none"/>
+
+<!-- Wordmark -->
+<text x="256" y="445" font-family="'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="38" font-weight="700" letter-spacing="3" fill="#FFFBEB" text-anchor="middle">DRIFTLOG</text>
+</svg>

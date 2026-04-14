@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Driftlog — AI Agent Drift Detection for Arbitrum</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700;900&family=Red+Hat+Text:wght@400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0C0A05;--surf:#1A1610;--acc:#F59E0B;--acc2:#FBBF24;--txt:#FFFBEB;--dim:#92854A}
+body{background:var(--bg);color:var(--txt);font-family:'Red Hat Text',sans-serif;line-height:1.6}
+h1,h2,h3{font-family:'Fraunces',serif}
+a{color:inherit;text-decoration:none}
+nav{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 5%;position:sticky;top:0;z-index:99;background:rgba(12,10,5,.92);backdrop-filter:blur(10px)}
+.nav-logo{display:flex;align-items:center;gap:.6rem;font-family:'Fraunces',serif;font-weight:700;font-size:1.1rem;letter-spacing:.05em;color:var(--acc2)}
+.nav-logo svg{width:28px;height:28px}
+nav ul{list-style:none;display:flex;gap:2rem}
+nav ul a{font-size:.88rem;color:var(--dim);transition:color .2s}
+nav ul a:hover{color:var(--acc)}
+.btn{background:var(--acc);color:#0C0A05;padding:.65rem 1.5rem;border-radius:8px;font-family:'Red Hat Text',sans-serif;font-weight:600;font-size:.88rem;transition:background .2s;border:none;cursor:pointer}
+.btn:hover{background:var(--acc2)}
+.btn-ghost{background:transparent;border:1px solid var(--acc);color:var(--acc);padding:.6rem 1.4rem;border-radius:8px;font-family:'Red Hat Text',sans-serif;font-weight:600;font-size:.88rem;cursor:pointer;transition:all .2s}
+.btn-ghost:hover{background:var(--acc);color:#0C0A05}
+/* Hero */
+#hero{min-height:92vh;display:flex;align-items:center;padding:5% 5%;gap:4rem}
+.hero-left{flex:1;max-width:580px}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:20px;padding:.35rem 1rem;font-size:.78rem;color:var(--acc);margin-bottom:1.5rem;font-weight:500}
+.hero-badge span{width:6px;height:6px;background:var(--acc);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+h1{font-size:clamp(2.4rem,5vw,4rem);font-weight:900;line-height:1.1;margin-bottom:1.2rem;color:var(--txt)}
+h1 em{color:var(--acc);font-style:normal}
+.hero-sub{font-size:1.05rem;color:var(--dim);max-width:480px;margin-bottom:2rem;line-height:1.7}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.hero-right{flex:1;display:flex;justify-content:center;align-items:center;position:relative}
+.hero-visual{width:320px;height:320px;position:relative;display:flex;align-items:center;justify-content:center}
+.hero-visual svg{width:200px;height:200px;filter:drop-shadow(0 0 40px rgba(245,158,11,.3))}
+.ring{position:absolute;border-radius:50%;border:1px solid rgba(245,158,11,.12)}
+.ring:nth-child(1){width:260px;height:260px;animation:spin 18s linear infinite}
+.ring:nth-child(2){width:310px;height:310px;animation:spin 28s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* Sections */
+section{padding:5rem 5%}
+.sec-label{font-size:.75rem;font-weight:600;letter-spacing:.15em;color:var(--acc);text-transform:uppercase;margin-bottom:.8rem}
+h2{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;margin-bottom:1rem;line-height:1.2}
+.lead{font-size:1rem;color:var(--dim);max-width:560px;line-height:1.75}
+/* Problem */
+#problem{background:var(--surf)}
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem}
+.p-card{background:var(--bg);border-radius:8px;padding:1.75rem;border-left:3px solid var(--acc)}
+.p-card h3{font-size:1rem;font-weight:600;margin-bottom:.5rem;color:var(--txt)}
+.p-card p{font-size:.88rem;color:var(--dim);line-height:1.65}
+/* How it works */
+#how{background:var(--bg)}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.how-card{background:var(--surf);border-radius:8px;padding:1.75rem}
+.how-num{font-family:'Fraunces',serif;font-size:2.5rem;font-weight:900;color:rgba(245,158,11,.2);line-height:1;margin-bottom:.75rem}
+.how-card h3{font-size:1rem;font-weight:600;margin-bottom:.5rem}
+.how-card p{font-size:.85rem;color:var(--dim);line-height:1.65}
+.tag{display:inline-block;background:rgba(245,158,11,.1);color:var(--acc);font-size:.72rem;padding:.2rem .5rem;border-radius:4px;margin-top:.75rem;font-weight:500}
+/* Features */
+#features{background:var(--surf)}
+.feat-bento{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto;gap:1.25rem;margin-top:3rem}
+.f-card{background:var(--bg);border-radius:8px;padding:1.75rem}
+.f-card.wide{grid-column:span 2}
+.f-icon{font-size:1.4rem;margin-bottom:.75rem}
+.f-card h3{font-size:.95rem;font-weight:600;margin-bottom:.4rem}
+.f-card p{font-size:.83rem;color:var(--dim);line-height:1.65}
+/* Roadmap */
+#roadmap{background:var(--bg)}
+.timeline{margin-top:3rem;position:relative;padding-left:2rem}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--acc),transparent)}
+.t-item{position:relative;padding-bottom:2.5rem;padding-left:1.5rem}
+.t-dot{position:absolute;left:-2.4rem;top:.3rem;width:12px;height:12px;border-radius:50%;border:2px solid var(--acc);background:var(--bg)}
+.t-dot.done{background:var(--acc)}
+.t-dot.active{background:var(--acc2);animation:pulse 2s infinite}
+.t-quarter{font-size:.75rem;font-weight:600;letter-spacing:.1em;color:var(--acc);margin-bottom:.3rem}
+.t-item h3{font-size:1rem;font-weight:600;margin-bottom:.4rem}
+.t-item ul{list-style:none;padding:0}
+.t-item ul li{font-size:.83rem;color:var(--dim);padding:.2rem 0;padding-left:.9rem;position:relative}
+.t-item ul li::before{content:'›';position:absolute;left:0;color:var(--acc)}
+.status{font-size:.7rem;padding:.15rem .55rem;border-radius:4px;font-weight:600;margin-left:.6rem}
+.done-badge{background:rgba(245,158,11,.15);color:var(--acc)}
+.prog-badge{background:rgba(251,191,36,.1);color:var(--acc2)}
+.soon-badge{background:rgba(146,133,74,.1);color:var(--dim)}
+/* CTA */
+#cta{background:var(--surf);text-align:center}
+#cta h2{max-width:600px;margin:0 auto 1rem}
+#cta p{color:var(--dim);max-width:480px;margin:0 auto 2rem;font-size:.95rem}
+.cta-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+/* Footer */
+footer{background:var(--bg);padding:2rem 5%;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(146,133,74,.15);flex-wrap:wrap;gap:1rem}
+.f-logo{display:flex;align-items:center;gap:.5rem;font-family:'Fraunces',serif;font-weight:700;font-size:.95rem;color:var(--dim)}
+.f-logo svg{width:22px;height:22px}
+footer p{font-size:.78rem;color:var(--dim)}
+.f-links{display:flex;gap:1.5rem}
+.f-links a{font-size:.78rem;color:var(--dim);transition:color .2s}
+.f-links a:hover{color:var(--acc)}
+/* Fade-up */
+.fade-up{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
+.fade-up.vis{opacity:1;transform:none}
+@media(max-width:768px){
+  #hero{flex-direction:column;text-align:center;padding-top:3rem}
+  .hero-sub,.hero-actions{margin:0 auto 1.5rem}
+  .hero-actions{justify-content:center}
+  .hero-right{display:none}
+  .problem-grid,.how-grid,.feat-bento{grid-template-columns:1fr}
+  .f-card.wide{grid-column:span 1}
+  nav ul{display:none}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">
+    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="dl-glow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#F59E0B" stop-opacity=".35"/><stop offset="100%" stop-color="#F59E0B" stop-opacity="0"/></radialGradient><linearGradient id="dl-top" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FDE68A"/><stop offset="100%" stop-color="#FBBF24"/></linearGradient><linearGradient id="dl-right" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#D97706"/></linearGradient><linearGradient id="dl-left" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#92400E"/><stop offset="100%" stop-color="#78350F"/></linearGradient><linearGradient id="dl-top2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FDE68A" stop-opacity=".9"/><stop offset="100%" stop-color="#FBBF24" stop-opacity=".9"/></linearGradient><linearGradient id="dl-right2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#D97706"/><stop offset="100%" stop-color="#B45309"/></linearGradient><linearGradient id="dl-left2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#78350F"/><stop offset="100%" stop-color="#451A03"/></linearGradient><filter id="dl-blur"><feGaussianBlur stdDeviation="18"/></filter></defs><rect width="512" height="512" rx="96" fill="#0C0A05"/><ellipse cx="256" cy="265" rx="160" ry="130" fill="url(#dl-glow)" filter="url(#dl-blur)"/><polygon points="148,330 256,392 256,360 148,298" fill="url(#dl-left2)"/><polygon points="256,392 364,330 364,298 256,360" fill="url(#dl-right2)"/><polygon points="148,298 256,360 364,298 256,236" fill="url(#dl-top2)"/><polygon points="164,280 256,332 256,300 164,248" fill="url(#dl-left)"/><polygon points="256,332 348,280 348,248 256,300" fill="url(#dl-right)"/><polygon points="164,248 256,300 348,248 256,196" fill="url(#dl-top)"/><polygon points="180,230 256,274 256,242 180,198" fill="url(#dl-left)"/><polygon points="256,274 332,230 332,198 256,242" fill="url(#dl-right)"/><polygon points="180,198 256,242 332,198 256,154" fill="url(#dl-top)"/><polyline points="256,154 256,242" stroke="#FDE68A" stroke-width="1" stroke-opacity=".6" fill="none"/><polyline points="256,196 256,300" stroke="#FDE68A" stroke-width="1" stroke-opacity=".4" fill="none"/><polyline points="256,236 256,360" stroke="#FDE68A" stroke-width="1" stroke-opacity=".3" fill="none"/></svg>
+    DRIFTLOG
+  </div>
+  <ul>
+    <li><a href="#problem">Problem</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+  </ul>
+  <a href="#cta"><button class="btn">Get Early Access</button></a>
+</nav>
+
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-badge"><span></span> Arbitrum · AI Agents · Prototype Live</div>
+    <h1>Catch <em>prompt drift</em> before it breaks your protocol</h1>
+    <p class="hero-sub">Driftlog instruments AI agent deployments on Arbitrum with cryptographic fingerprints, behavioral diffs, and an on-chain version registry — so silent model rollovers never silently reprice your liquidations.</p>
+    <div class="hero-actions">
+      <a href="#cta"><button class="btn">Request Access</button></a>
+      <a href="#how"><button class="btn-ghost">See How It Works</button></a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-visual">
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="h-glow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#F59E0B" stop-opacity=".35"/><stop offset="100%" stop-color="#F59E0B" stop-opacity="0"/></radialGradient><linearGradient id="h-top" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FDE68A"/><stop offset="100%" stop-color="#FBBF24"/></linearGradient><linearGradient id="h-right" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#D97706"/></linearGradient><linearGradient id="h-left" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#92400E"/><stop offset="100%" stop-color="#78350F"/></linearGradient><linearGradient id="h-top2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FDE68A" stop-opacity=".9"/><stop offset="100%" stop-color="#FBBF24" stop-opacity=".9"/></linearGradient><linearGradient id="h-right2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#D97706"/><stop offset="100%" stop-color="#B45309"/></linearGradient><linearGradient id="h-left2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#78350F"/><stop offset="100%" stop-color="#451A03"/></linearGradient><filter id="h-blur"><feGaussianBlur stdDeviation="18"/></filter></defs><rect width="512" height="512" rx="96" fill="#0C0A05"/><ellipse cx="256" cy="265" rx="160" ry="130" fill="url(#h-glow)" filter="url(#h-blur)"/><polygon points="148,330 256,392 256,360 148,298" fill="url(#h-left2)"/><polygon points="256,392 364,330 364,298 256,360" fill="url(#h-right2)"/><polygon points="148,298 256,360 364,298 256,236" fill="url(#h-top2)"/><polygon points="164,280 256,332 256,300 164,248" fill="url(#h-left)"/><polygon points="256,332 348,280 348,248 256,300" fill="url(#h-right)"/><polygon points="164,248 256,300 348,248 256,196" fill="url(#h-top)"/><polygon points="180,230 256,274 256,242 180,198" fill="url(#h-left)"/><polygon points="256,274 332,230 332,198 256,242" fill="url(#h-right)"/><polygon points="180,198 256,242 332,198 256,154" fill="url(#h-top)"/><polyline points="256,154 256,242" stroke="#FDE68A" stroke-width="1" stroke-opacity=".6" fill="none"/><polyline points="256,196 256,300" stroke="#FDE68A" stroke-width="1" stroke-opacity=".4" fill="none"/><polyline points="256,236 256,360" stroke="#FDE68A" stroke-width="1" stroke-opacity=".3" fill="none"/></svg>
+    </div>
+  </div>
+</section>
+
+<section id="problem">
+  <div class="fade-up">
+    <div class="sec-label">The Problem</div>
+    <h2>Model rollovers are silent protocol killers</h2>
+    <p class="lead">Your risk management agent passed every audit — on the model version you tested. Then the provider silently rolled to a new snapshot, and now it misprices liquidations at 3 AM.</p>
+  </div>
+  <div class="problem-grid fade-up">
+    <div class="p-card"><h3>Unannounced upstream updates</h3><p>LLM providers push model updates without versioned APIs or changelogs. Your prompt that returned structured JSON last week may return a different schema today.</p></div>
+    <div class="p-card"><h3>No behavioral audit trail</h3><p>On-chain transactions show inputs and outputs — not the agent reasoning that produced them. When something goes wrong, there's no chain of custody to trace.</p></div>
+    <div class="p-card"><h3>CI/CD ignores agent drift</h3><p>Hardhat and Foundry test suites validate Solidity logic. They have no concept of semantic drift in the AI layer sitting above your contracts.</p></div>
+    <div class="p-card"><h3>DeFi stakes are asymmetric</h3><p>A vault-rebalancing agent operating on a drifted model can cause irreversible on-chain damage — liquidation cascades, mispriced options, drained reserves — before any human notices.</p></div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="fade-up">
+    <div class="sec-label">How It Works</div>
+    <h2>Three layers of drift protection</h2>
+    <p class="lead">Driftlog wraps every AI agent invocation in a cryptographic envelope, replays history against new versions, and gates deployment automatically.</p>
+  </div>
+  <div class="how-grid fade-up">
+    <div class="how-card"><div class="how-num">01</div><h3>Fingerprint Every Invocation</h3><p>Each agent call is hashed as an EIP-712 typed envelope — prompt hash, model version, tool call schema, output structure — written to Arbitrum calldata via the ArbSys precompile.</p><span class="tag">EIP-712 · ArbSys · IPFS</span></div>
+    <div class="how-card"><div class="how-num">02</div><h3>Behavioral Diff on New Versions</h3><p>When a new agent version is staged, Driftlog replays curated pinned inputs against both versions and scores semantic divergence. Exceeds threshold? Deployment is blocked automatically.</p><span class="tag">Diff Runner · Configurable Threshold</span></div>
+    <div class="how-card"><div class="how-num">03</div><h3>On-Chain Version Registry</h3><p>An ERC-7582-compatible registry lets any protocol participant verify which agent spec authorized a given transaction — creating an auditable chain of custody for every AI-driven action.</p><span class="tag">ERC-7582 · Arbitrum Sepolia</span></div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="fade-up">
+    <div class="sec-label">Features</div>
+    <h2>Built for DeFi CI/CD workflows</h2>
+  </div>
+  <div class="feat-bento fade-up">
+    <div class="f-card wide"><div class="f-icon">🔌</div><h3>Hardhat & Foundry Plugins</h3><p>Drop-in npm package and forge script wrapper. Drift checks run automatically on every agent pull request inside your existing pipeline — no new infrastructure to maintain. Gate merges on passing behavioral diff scores.</p></div>
+    <div class="f-card"><div class="f-icon">🔐</div><h3>EIP-712 Fingerprinting</h3><p>Typed structured data signatures for every invocation. Prompt hash, model version, tool schema, and output structure — all anchored immutably in Arbitrum calldata.</p></div>
+    <div class="f-card"><div class="f-icon">📋</div><h3>ERC-7582 Registry</h3><p>Public read interface for third-party verifiers. Any protocol participant can look up which agent spec authorized any transaction by hash.</p></div>
+    <div class="f-card"><div class="f-icon">🔔</div><h3>Drift Alerts</h3><p>Webhook and Telegram bot notifications with structured JSON payloads when a threshold breach is detected during staging.</p></div>
+    <div class="f-card"><div class="f-icon">📦</div><h3>IPFS Prompt Snapshots</h3><p>Content-addressed prompt storage. Retrieve any historical agent input by its invocation hash — permanent, verifiable, tamper-evident.</p></div>
+    <div class="f-card"><div class="f-icon">📊</div><h3>Protocol Dashboard</h3><p>Per-protocol agent version history, drift event log, and invocation fingerprint lookup by transaction hash. Coming Q3 2026.</p></div>
+  </div>
+</section>
+
+<section id="roadmap">
+  <div class="fade-up">
+    <div class="sec-label">Roadmap</div>
+    <h2>From prototype to mainnet</h2>
+  </div>
+  <div class="timeline fade-up">
+    <div class="t-item">
+      <div class="t-dot done"></div>
+      <div class="t-quarter">Q1 2026 <span class="status done-badge">Completed</span></div>
+      <h3>Prototype — Fingerprinting & Registry</h3>
+      <ul>
+        <li>EIP-712 module hashing prompt, model version, and output schema into Arbitrum calldata</li>
+        <li>Solidity 0.8.x agent version registry on Arbitrum Sepolia with ERC-7582 interface</li>
+        <li>IPFS prompt snapshot storage with content-addressed retrieval by invocation hash</li>
+      </ul>
+    </div>
+    <div class="t-item">
+      <div class="t-dot active"></div>
+      <div class="t-quarter">Q2 2026 <span class="status prog-badge">In Progress</span></div>
+      <h3>Behavioral Diff Runner & CI/CD Plugins</h3>
+      <ul>
+        <li>Diff runner replaying pinned historical inputs and scoring semantic divergence</li>
+        <li>Hardhat npm plugin and Foundry forge script wrapper gating deployments on drift checks</li>
+        <li>Webhook and Telegram alert system with structured JSON payloads</li>
+      </ul>
+    </div>
+    <div class="t-item">
+      <div class="t-dot"></div>
+      <div class="t-quarter">Q3 2026 <span class="status soon-badge">Upcoming</span></div>
+      <h3>Mainnet & Design Partner Onboarding</h3>
+      <ul>
+        <li>Mainnet registry deployment with access-controlled writes and public read interface</li>
+        <li>Reference integrations for liquidation-trigger and vault-rebalancing agent patterns</li>
+        <li>Dashboard UI: per-protocol version history, drift event log, tx hash lookup</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="cta">
+  <div class="fade-up">
+    <div class="sec-label">Early Access</div>
+    <h2>Protect your protocol before the next silent rollover</h2>
+    <p>We're onboarding three Arbitrum DeFi protocols as design partners in Q3 2026. If your protocol uses AI agents for liquidations, rebalancing, or risk management, let's talk.</p>
+    <div class="cta-actions">
+      <button class="btn" onclick="alert('Thanks — we\'ll be in touch!')">Apply as Design Partner</button>
+      <button class="btn-ghost" onclick="alert('GitHub coming soon!')">View on GitHub</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-logo">
+    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="f-top" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FDE68A"/><stop offset="100%" stop-color="#FBBF24"/></linearGradient><linearGradient id="f-right" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#D97706"/></linearGradient><linearGradient id="f-left" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#92400E"/><stop offset="100%" stop-color="#78350F"/></linearGradient></defs><rect width="512" height="512" rx="96" fill="#0C0A05"/><polygon points="180,230 256,274 256,242 180,198" fill="url(#f-left)"/><polygon points="256,274 332,230 332,198 256,242" fill="url(#f-right)"/><polygon points="180,198 256,242 332,198 256,154" fill="url(#f-top)"/></svg>
+    DRIFTLOG
+  </div>
+  <p>© 2026 Driftlog. Built for Arbitrum.</p>
+  <div class="f-links">
+    <a href="#problem">Problem</a>
+    <a href="#how">How It Works</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#cta">Contact</a>
+  </div>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')}),{threshold:.12});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
