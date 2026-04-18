@@ -1,0 +1,127 @@
+{
+  "_meta": {
+    "schema_version": "1.0",
+    "source": "startup_generator",
+    "generated_from": "/Users/aliev_murat/Documents/Claude/Projects/SURGE/startup-generator/output/projects/Driftlog/profile.json",
+    "notes": "Field names and values match Surge Discovery create form (Full Mode, 9 steps)"
+  },
+  "project_name": "Driftlog",
+  "tagline": "Catch AI agent prompt drift before it silently breaks your Arbitrum protocol.",
+  "full_description": "Driftlog instruments AI agent deployments on Arbitrum by recording a cryptographic fingerprint of every agent invocation — prompt hash, model version, tool call schema, and output structure — as an EIP-712 typed envelope anchored in Arbitrum calldata via the ArbSys precompile. When a new agent version is staged for deployment, Driftlog automatically replays a curated set of pinned historical inputs against both the old and new versions, computing a behavioral diff and blocking deployment if",
+  "category": "AI Agents & Automation",
+  "stage": "Prototype",
+  "logo": {
+    "local_path": "/Users/aliev_murat/Documents/Claude/Projects/SURGE/startup-generator/output/projects/Driftlog/logo.svg",
+    "url": "https://github.com/AllievMuro/driftlog/raw/main/logo.svg",
+    "format": "svg",
+    "note": "Surge requires PNG or JPG. Convert SVG → PNG before upload."
+  },
+  "ai_tools": [
+    "Cursor",
+    "Claude Code",
+    "GitHub Copilot"
+  ],
+  "tech_stack": {
+    "languages": [
+      "Solidity 0.8.x",
+      "TypeScript"
+    ],
+    "dev_tools": [
+      "Arbitrum Nitro",
+      "ArbSys precompile",
+      "EIP-712 typed data signing",
+      "ERC-7582 versioned metadata",
+      "Hardhat",
+      "Foundry",
+      "IPFS",
+      "OpenAI model version pinning API",
+      "Anthropic model version pinning API",
+      "Node.js",
+      "Webhooks / Telegram Bot API"
+    ]
+  },
+  "pitch_deck": {
+    "local_path": "/Users/aliev_murat/Documents/Claude/Projects/SURGE/startup-generator/output/projects/Driftlog/pitch_deck.pptx",
+    "url": "https://github.com/AllievMuro/driftlog/raw/main/pitch_deck.pptx",
+    "format": "pptx",
+    "note": "Surge requires PDF. Convert PPTX → PDF before upload."
+  },
+  "whitepaper": {
+    "local_path": "",
+    "url": ""
+  },
+  "pitch_video": {
+    "url": "",
+    "source": "youtube",
+    "note": "Must be public/unlisted YouTube URL. Max 800 seconds."
+  },
+  "links": {
+    "website": "https://AllievMuro.github.io/driftlog",
+    "github": "https://github.com/AllievMuro/driftlog",
+    "telegram": "",
+    "x_twitter": ""
+  },
+  "team_description": "The team combines a smart contract engineer with prior experience building Arbitrum-native DeFi tooling and an ML infrastructure engineer who has worked on model versioning and evaluation pipelines at a production LLM deployment shop. Both founders have direct exposure to the failure modes of LLM agents in financial automation contexts.",
+  "team_members": [],
+  "roadmap": [
+    {
+      "quarter": "Q1 2026",
+      "status": "Completed",
+      "goal": "Ship a working prototype that fingerprints agent invocations on Arbitrum and stores versioned metadata on-chain.",
+      "deliverables": [
+        "EIP-712 fingerprinting module that hashes prompt, model version, and output schema and writes them as Arbitrum calldata annotations",
+        "Solidity 0.8.x on-chain agent version registry contract deployed to Arbitrum Sepolia testnet with ERC-7582-compatible interface",
+        "IPFS prompt snapshot storage integration with content-addressed retrieval by invocation hash"
+      ]
+    },
+    {
+      "quarter": "Q2 2026",
+      "status": "In Progress",
+      "goal": "Deliver the automated behavioral diff runner and CI/CD plugin integrations for Hardhat and Foundry.",
+      "deliverables": [
+        "Behavioral diff runner that replays pinned historical input sets against two agent versions and produces a scored semantic divergence report",
+        "Hardhat plugin (npm package) and Foundry plugin (forge script wrapper) that gate agent deployments on passing drift threshold checks",
+        "Configurable alert system delivering drift threshold breach notifications via webhook and Telegram bot with structured JSON payloads"
+      ]
+    },
+    {
+      "quarter": "Q3 2026",
+      "status": "Upcoming",
+      "goal": "Onboard three live Arbitrum DeFi protocols as design partners and harden the registry for mainnet use.",
+      "deliverables": [
+        "Mainnet deployment of the agent version registry with access-controlled write permissions and a public read interface for third-party verifiers",
+        "Integration guides and reference implementations for liquidation-trigger and vault-rebalancing agent patterns used by design partner protocols",
+        "Dashboard UI showing per-protocol agent version history, drift event log, and invocation fingerprint lookup by transaction hash"
+      ]
+    }
+  ],
+  "revenue_sources": {
+    "stripe": null,
+    "paypal": null,
+    "shopify": null
+  },
+  "user_data": {
+    "google_analytics": null,
+    "mixpanel": null
+  },
+  "publish_readiness": {
+    "required": {
+      "logo": true,
+      "project_name": true,
+      "tagline": true,
+      "category": true,
+      "full_description": true,
+      "team": true,
+      "pitch_deck": true,
+      "pitch_video": false
+    },
+    "optional": {
+      "tech_stack": true,
+      "roadmap": true,
+      "socials": true,
+      "revenue_sources": false,
+      "user_data": false
+    },
+    "summary": "Required: 7/8, Optional: 3/5"
+  }
+}
